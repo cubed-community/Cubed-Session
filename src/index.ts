@@ -63,6 +63,8 @@ export class Session extends EventEmitter {
 	 * 
 	 * @param {string} [path] The path to the folder you wish to get the contents of
 	 * @returns {Promise<File>} An array of the files
+	 * @example
+	 * Session.getFolder('/plugins/skript/scripts')
 	 */
 	public async getFolder(path: string) {
 		const contents: File[] = await CubedCraft.files.getFolder(this.session, path);
