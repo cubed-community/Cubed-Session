@@ -16,5 +16,5 @@ const { Session } = require('../dist/index');
 
 	});
 
-	session.login('Supercrafter100', 'Flipper26208319!?*')
+	session.login('username', 'password')
 })()
