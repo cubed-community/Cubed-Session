@@ -44,6 +44,8 @@ export class Session extends EventEmitter {
 	 * Session.getServers().then(servers => console.log(servers))
 	 */
 	public async getServers() : Promise<Server[]> {
+		if (!this.session) throw new Error('There is no session active. Login first before doing any action.');
+
 		const servers: Server[] = await CubedCraft.getServers(this.session);
 		return servers;
 	}
@@ -56,6 +58,8 @@ export class Session extends EventEmitter {
 	 * Session.selectServer(1234)
 	 */
 	public async selectServer(serverCode: number) : Promise<void> {
+		if (!this.session) throw new Error('There is no session active. Login first before doing any action.');
+
 		await CubedCraft.selectServer(this.session, serverCode);
 		this.server = serverCode;
 		this.emit(Events.SELECT, serverCode);
@@ -69,9 +73,9 @@ export class Session extends EventEmitter {
 	 * Session.getFolder('/plugins/skript/scripts')
 	 */
 	public async getFolder(path: string) {
-		if (!this.session) throw new Error('There is no session active. Login first doing any action.');
+		if (!this.session) throw new Error('There is no session active. Login first before doing any action.');
 		if (!this.server) throw new Error('There is no server selected! Select one first!');
-		
+
 		const contents: File[] = await CubedCraft.files.getFolder(this.session, path);
 		return contents;
 	}
