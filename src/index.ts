@@ -13,6 +13,7 @@ export class Session extends EventEmitter {
 	password: string;
 
 	session: string;
+	server: number;
 	options: typeof DefaultOptions;
 
 	/**
@@ -56,6 +57,7 @@ export class Session extends EventEmitter {
 	 */
 	public async selectServer(serverCode: number) : Promise<void> {
 		await CubedCraft.selectServer(this.session, serverCode);
+		this.server = serverCode;
 		this.emit(Events.SELECT, serverCode);
 	}
 
@@ -67,6 +69,9 @@ export class Session extends EventEmitter {
 	 * Session.getFolder('/plugins/skript/scripts')
 	 */
 	public async getFolder(path: string) {
+		if (!this.session) throw new Error('There is no session active. Login first doing any action.');
+		if (!this.server) throw new Error('There is no server selected! Select one first!');
+		
 		const contents: File[] = await CubedCraft.files.getFolder(this.session, path);
 		return contents;
 	}
